@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base>
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="eyebrow-line"></span> PORTFOLIO / OPERATIONS RESEARCH</p>
+      <h1 id="hero-title">你好，我是 <span>Chen LM.</span><br />让数据走向<span class="accent">更好的决策。</span></h1>
+      <p class="hero-summary">研究算力负荷与能源系统的协同优化，关注任务到达和风光出力不确定时，调度方案是否<strong>可执行、可验证、可复现</strong>。</p>
+      <div class="hero-actions"><a class="button button-primary" href="#work">查看当前研究 <span aria-hidden="true">↘</span></a><a class="button button-text" href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub 主页 ↗</a></div>
+    </div>
+    <div class="hero-side" aria-label="研究路径">
+      <span class="side-label">HOW I WORK</span>
+      <div class="decision-diagram" aria-hidden="true">
+        <div><small>01 / DATA</small><strong>数据与语义审计</strong><span>Audit</span></div>
+        <div><small>02 / MODEL</small><strong>可调度域与优化</strong><span>Model</span></div>
+        <div><small>03 / TEST</small><strong>任务级可实现性</strong><span>Validate</span></div>
+      </div>
+      <p>Data <span>→</span> Model <span>→</span> Decision <span>→</span> Evidence</p>
+    </div>
+  </section>
+  <section class="work-section wrap" id="work" aria-labelledby="work-title">
+    <div class="section-head"><div><p class="eyebrow">01 / CURRENT RESEARCH</p><h2 id="work-title">当前项目</h2></div><p>研究仍在推进中，以下展示已经完成且可核验的部分。</p></div>
+    <article class="project-card project-featured project-single">
+      <div class="card-top"><span class="project-number">ACTIVE RESEARCH / 进行中</span><span class="pill">算电协同 · 不确定性优化</span></div>
+      <div class="featured-body"><div><h3>双侧不确定性下的<br />算电协同优化</h3><p>同时考虑未来任务集合和风光预测误差。项目从原始数据标准化开始，构造任务驱动的算力可调度域、能源残差场景和确定性基准，并检验聚合优化结果能否分解为真实任务调度。</p><a class="text-link" href="/projects/bilateral-uncertainty/">阅读研究案例 <span aria-hidden="true">↗</span></a></div><div class="status-panel"><span class="result-label">PROJECT STATUS / 2026</span><strong>进行中<span class="pulse" aria-hidden="true"></span></strong><p>数据审计、可调度域、时序划分和确定性基准已建立。任务级可实现性诊断正在影响模型设计；最终双侧不确定性优化器与正式样本外实验尚未完成。</p><a href="https://github.com/Brolem/compute_energy_bilateral_uncertainty" target="_blank" rel="noopener noreferrer">查看当前仓库 ↗</a></div></div>
+      <div class="card-bottom"><span>任务级调度</span><span>场景构造</span><span>确定性基准</span><span>可实现性审计</span></div>
+    </article>
+  </section>
+  <section class="method-section wrap" aria-labelledby="method-title">
+    <div class="section-head"><div><p class="eyebrow">02 / APPROACH</p><h2 id="method-title">我关注的问题</h2></div></div>
+    <div class="method-grid">
+      <div><span>01</span><h3>数据代表什么？</h3><p>核对任务字段、时间轴和能源数据的单位与信息集，避免把反事实组合误写成真实联合运行。</p></div>
+      <div><span>02</span><h3>模型真的可执行吗？</h3><p>将任务到达、服务量和容量约束映射到聚合调度，并检查聚合轨迹的任务级可分解性。</p></div>
+      <div><span>03</span><h3>结论经得起验证吗？</h3><p>保留基准、时间顺序划分和失败诊断；在正式结果形成前，不把预检当作性能结论。</p></div>
+    </div>
+  </section>
+  <section class="about-section" id="about" aria-labelledby="about-title"><div class="wrap about-grid">
+    <div><p class="eyebrow">03 / ABOUT</p><h2 id="about-title">研究与工程，<br />都要经得起验证。</h2></div>
+    <div class="about-copy"><p>我是关注运筹优化与能源决策的研究生。目前的工作围绕算力任务、风光不确定性和调度模型展开。我的兴趣是把问题定义、模型假设和实验边界讲清楚，再用代码逐项验证。</p><div class="skill-row"><span>数学建模 / MILP</span><span>Python</span><span>不确定性优化</span><span>数据审计与实验设计</span></div><a class="text-link" href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub 主页 <span aria-hidden="true">↗</span></a></div>
+  </div></section>
+</Base>

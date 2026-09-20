@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="双侧不确定性下的算电协同优化 · Chen LM" description="当前研究项目：任务驱动算力可调度域、风光日前误差、确定性基准与任务级可实现性审计。">
+  <article class="case wrap">
+    <a class="back-link" href="/#work">← 返回当前项目</a>
+    <div class="case-header"><p class="eyebrow">RESEARCH CASE / ACTIVE</p><h1>双侧不确定性下的<br /><span>算电协同优化</span></h1><p class="case-lead">未来任务何时到达、需要多少计算量，以及风光出力会怎样偏离预测？在这些信息尚不确定时，怎样制定真正能由任务执行的调度方案？</p><div class="case-meta"><div><span>对象</span><strong>算力任务 + 能源系统</strong></div><div><span>方法</span><strong>可调度域 · 场景 · 优化</strong></div><div><span>状态</span><strong>研究推进中</strong></div></div></div>
+    <div class="case-content">
+      <section><span class="case-step">01 / SCOPE</span><div><h2>研究问题</h2><p>算力侧的不确定性来自未来任务集合，包括到达时间、任务类型、GPU 需求和预计时长；能源侧关注风光日前预测误差。研究目标是建立能够衔接数据、任务约束和电力调度的优化框架，并用任务级验证约束聚合模型的适用范围。</p></div></section>
+      <section><span class="case-step">02 / BUILT</span><div><h2>已经建立的基础</h2><div class="case-table"><div><strong>数据与场景</strong><p>完成算力和能源原始数据的标准化、时间顺序划分，以及算力与能源的边际场景库。保留原始数据只读语义和处理清单。</p></div><div><strong>模型与诊断</strong><p>实现任务可调度域、滚动状态和确定性聚合基准；用任务级分解检验聚合轨迹是否可实现。</p></div></div></div></section>
+      <section><span class="case-step">03 / FINDING</span><div><h2>当前关键发现</h2><p>一个确定性聚合基准的诊断表明：总体计算服务量与共享 GPU 容量可以满足，并不保证逐小时聚合轨迹能精确分解到原始任务。因此该基准目前只作为模型诊断参考，不能算正式性能结果。另一项算力场景预算原型未通过对照门槛，后续需要先修正参数化和搜索效率。</p></div></section>
+      <section><span class="case-step">04 / NEXT</span><div><h2>待完成的验证</h2><p>双侧联合场景协议、最终不确定性优化器与正式样本外实验尚未冻结或运行。项目目前没有可公开宣称的优化收益比例；结论会随可实现性审计和正式实验更新。</p><div class="case-links"><a class="button button-primary" href="https://github.com/Brolem/compute_energy_bilateral_uncertainty" target="_blank" rel="noopener noreferrer">查看研究仓库 ↗</a><a class="button button-outline" href="https://github.com/Brolem/compute_energy_bilateral_uncertainty/blob/main/README.md" target="_blank" rel="noopener noreferrer">阅读当前进展 ↗</a></div></div></section>
+    </div>
+  </article>
+</Base>

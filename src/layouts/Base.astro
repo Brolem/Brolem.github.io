@@ -1,0 +1,32 @@
+---
+import '../styles/global.css';
+const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM 的项目与研究：运筹优化、算电协同和不确定性决策。' } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f8fa" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳转到内容</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/" aria-label="Chen LM 首页"><span class="mark">CL</span><span>CHEN LM<span class="wordmark-dot">.</span></span></a>
+      <nav aria-label="主导航">
+        <a href="/#work">项目</a>
+        <a href="/#about">关于</a>
+        <a class="nav-github" href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <span>© {new Date().getFullYear()} Chen LM</span>
+      <div><a href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+      <span>Research · Modeling · Validation</span>
+    </footer>
+  </body>
+</html>
