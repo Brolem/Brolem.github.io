@@ -1,4 +1,4 @@
-# 陈莅谋 · Portfolio
+# Chen LM · Portfolio
 
 面向求职展示的个人网站，重点介绍正在推进的双侧不确定性算电协同研究。内容与 [当前研究仓库](https://github.com/Brolem/compute_energy_bilateral_uncertainty) 的 README 对齐；尚未完成的优化器和样本外实验不展示为正式成果。网站包含 PDF 简历和用户提供的 Big Five 测评嵌入页。
 
