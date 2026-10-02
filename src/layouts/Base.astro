@@ -13,6 +13,114 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
     <title>{title}</title>
   </head>
   <body>
+    <div class="ambient-background" aria-hidden="true"><canvas id="ambient-canvas"></canvas></div>
+    <button class="motion-toggle" type="button" aria-pressed="false" hidden><span class="motion-dot" aria-hidden="true"></span><span>动态背景：关</span></button>
+    <style is:global>
+      body { isolation: isolate; }
+      .ambient-background { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; background: radial-gradient(ellipse at 12% 16%, #dcebf5 0, transparent 48%), radial-gradient(ellipse at 88% 62%, #deefed 0, transparent 45%), #f6f8fa; }
+      #ambient-canvas { display: block; width: 100%; height: 100%; }
+      .motion-toggle { position: fixed; right: 20px; bottom: 18px; z-index: 5; display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid #c7d7df; border-radius: 24px; background: rgba(248,251,253,.94); color: #486575; font: inherit; font-size: 12px; cursor: pointer; box-shadow: 0 3px 16px #172d4108; }
+      .motion-toggle[hidden] { display: none; }
+      .motion-toggle:hover { border-color: #6d9aab; }
+      .motion-toggle:focus-visible { outline: 3px solid #126577; outline-offset: 4px; }
+      .motion-dot { width: 6px; height: 6px; border-radius: 50%; background: #93a7b2; }
+      .motion-toggle[aria-pressed="true"] .motion-dot { background: #338896; }
+      @media (max-width: 670px) { .motion-toggle { right: 12px; bottom: 12px; } .site-footer { padding-bottom: 68px; } }
+    </style>
+    <script>
+      const canvas = document.querySelector<HTMLCanvasElement>('#ambient-canvas');
+      const toggle = document.querySelector<HTMLButtonElement>('.motion-toggle');
+      const context = canvas?.getContext('2d');
+      if (canvas && toggle && context) {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let enabled = !reducedMotion.matches;
+        try { const saved = localStorage.getItem('chenlm-background-motion'); if (saved === 'off') enabled = false; } catch {}
+        let width = 0, height = 0, frame = 0, lastTime = 0;
+        const pointer = { x: -1000, y: -1000 };
+        type Node = { x: number; y: number; vx: number; vy: number; offsetX: number; offsetY: number; radius: number };
+        let nodes: Node[] = [];
+        let ripples: { x: number; y: number; age: number }[] = [];
+        function resize() {
+          width = window.innerWidth; height = window.innerHeight;
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          canvas!.width = Math.round(width * ratio); canvas!.height = Math.round(height * ratio);
+          context!.setTransform(ratio, 0, 0, ratio, 0, 0);
+          const count = Math.min(48, Math.max(16, Math.round(width * height / 27000)));
+          nodes = Array.from({ length: count }, (_, i) => ({
+            x: ((i * .61803398875 + .13) % 1) * width,
+            y: ((i * .41421356237 + .21) % 1) * height,
+            vx: Math.cos(i * 2.4) * 3, vy: Math.sin(i * 2.4) * 3,
+            offsetX: 0, offsetY: 0, radius: i % 5 === 0 ? 2 : 1.3,
+          }));
+          ripples = []; draw(0);
+        }
+        function draw(dt: number) {
+          const ctx = context!;
+          ctx.clearRect(0, 0, width, height);
+          if (enabled && pointer.x >= 0) {
+            const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 250);
+            glow.addColorStop(0, 'rgba(78,153,179,0.08)'); glow.addColorStop(1, 'rgba(78,153,179,0)');
+            ctx.fillStyle = glow; ctx.fillRect(0, 0, width, height);
+          }
+          for (const node of nodes) {
+            node.x += node.vx * dt; node.y += node.vy * dt;
+            if (node.x < 0) node.x += width; if (node.x > width) node.x -= width;
+            if (node.y < 0) node.y += height; if (node.y > height) node.y -= height;
+            const dx = node.x - pointer.x, dy = node.y - pointer.y;
+            const distance = Math.hypot(dx, dy);
+            const strength = enabled && distance < 170 ? (1 - distance / 170) * 24 : 0;
+            const easing = dt > 0 ? 1 - Math.exp(-dt * 5) : 0;
+            node.offsetX += (dx / (distance || 1) * strength - node.offsetX) * easing;
+            node.offsetY += (dy / (distance || 1) * strength - node.offsetY) * easing;
+          }
+          for (let i = 0; i < nodes.length; i++) {
+            const a = nodes[i]; const ax = a.x + a.offsetX, ay = a.y + a.offsetY;
+            for (let j = i + 1; j < nodes.length; j++) {
+              const b = nodes[j]; const bx = b.x + b.offsetX, by = b.y + b.offsetY;
+              const distance = Math.hypot(ax - bx, ay - by);
+              if (distance < 155) {
+                ctx.strokeStyle = `rgba(55,115,145,${(1 - distance / 155) * .13})`;
+                ctx.lineWidth = .7; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+              }
+            }
+            ctx.fillStyle = 'rgba(47,112,139,0.24)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
+          }
+          ripples = ripples.filter(ripple => ripple.age < 1.1);
+          for (const ripple of ripples) {
+            ripple.age += dt; ctx.strokeStyle = `rgba(46,132,154,${Math.max(0, (1 - ripple.age / 1.1) * .2)})`;
+            ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(ripple.x, ripple.y, 12 + ripple.age * 95, 0, Math.PI * 2); ctx.stroke();
+          }
+        }
+        function animate(time: number) {
+          frame = 0;
+          if (!enabled || document.hidden) return;
+          if (!lastTime || time - lastTime >= 1000 / 30) {
+            const dt = lastTime ? Math.min((time - lastTime) / 1000, .05) : 0;
+            lastTime = time; draw(dt);
+          }
+          frame = requestAnimationFrame(animate);
+        }
+        function sync() {
+          cancelAnimationFrame(frame); frame = 0; lastTime = 0;
+          toggle!.hidden = false; toggle!.setAttribute('aria-pressed', String(enabled));
+          toggle!.querySelector('span:last-child')!.textContent = `动态背景：${enabled ? '开' : '关'}`;
+          if (enabled && !document.hidden) frame = requestAnimationFrame(animate);
+          else { pointer.x = -1000; pointer.y = -1000; ripples = []; nodes.forEach(node => { node.offsetX = 0; node.offsetY = 0; }); draw(0); }
+        }
+        window.addEventListener('pointermove', event => { if (enabled && event.pointerType === 'mouse') { pointer.x = event.clientX; pointer.y = event.clientY; } }, { passive: true });
+        document.addEventListener('pointerleave', () => { pointer.x = -1000; pointer.y = -1000; });
+        window.addEventListener('blur', () => { pointer.x = -1000; pointer.y = -1000; });
+        window.addEventListener('pointerdown', event => {
+          if (!enabled || (event.target instanceof Element && event.target.closest('a,button,input,textarea,select,iframe,object'))) return;
+          ripples.push({ x: event.clientX, y: event.clientY, age: 0 }); ripples = ripples.slice(-3);
+        }, { passive: true });
+        toggle.addEventListener('click', () => { enabled = !enabled; try { localStorage.setItem('chenlm-background-motion', enabled ? 'on' : 'off'); } catch {} sync(); });
+        reducedMotion.addEventListener('change', () => { enabled = !reducedMotion.matches; try { if (localStorage.getItem('chenlm-background-motion') === 'off') enabled = false; } catch {} sync(); });
+        document.addEventListener('visibilitychange', sync);
+        window.addEventListener('resize', resize, { passive: true });
+        resize(); sync();
+      }
+    </script>
     <a class="skip-link" href="#main">跳转到内容</a>
     <header class="site-header wrap">
       <a class="wordmark" href="/" aria-label="Chen LM 首页"><span class="mark">CL</span><span>CHEN LM<span class="wordmark-dot">.</span></span></a>
