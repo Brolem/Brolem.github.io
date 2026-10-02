@@ -40,19 +40,20 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
         type Node = { x: number; y: number; vx: number; vy: number; offsetX: number; offsetY: number; radius: number };
         let nodes: Node[] = [];
         let ripples: { x: number; y: number; age: number }[] = [];
+        let trail: { x: number; y: number; age: number }[] = [];
         function resize() {
           width = window.innerWidth; height = window.innerHeight;
           const ratio = Math.min(window.devicePixelRatio || 1, 2);
           canvas!.width = Math.round(width * ratio); canvas!.height = Math.round(height * ratio);
           context!.setTransform(ratio, 0, 0, ratio, 0, 0);
-          const count = Math.min(52, Math.max(20, Math.round(width * height / 24000)));
+          const count = Math.min(26, Math.max(12, Math.round(width * height / 48000)));
           nodes = Array.from({ length: count }, (_, i) => ({
             x: ((i * .61803398875 + .13) % 1) * width,
             y: ((i * .41421356237 + .21) % 1) * height,
             vx: Math.cos(i * 2.4) * 12, vy: Math.sin(i * 2.4) * 12,
             offsetX: 0, offsetY: 0, radius: i % 5 === 0 ? 2.8 : 1.9,
           }));
-          ripples = []; draw(0);
+          ripples = []; trail = []; draw(0);
         }
         function draw(dt: number) {
           const ctx = context!;
@@ -76,22 +77,21 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
           }
           for (let i = 0; i < nodes.length; i++) {
             const a = nodes[i]; const ax = a.x + a.offsetX, ay = a.y + a.offsetY;
-            for (let j = i + 1; j < nodes.length; j++) {
-              const b = nodes[j]; const bx = b.x + b.offsetX, by = b.y + b.offsetY;
-              const distance = Math.hypot(ax - bx, ay - by);
-              if (distance < 180) {
-                ctx.strokeStyle = `rgba(55,115,145,${(1 - distance / 180) * .27})`;
-                ctx.lineWidth = .9; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
-                if ((i + j) % 4 === 0 && distance > 50) {
-                  const progress = (elapsed * .24 + i * .17 + j * .13) % 1;
-                  const pulseX = ax + (bx - ax) * progress, pulseY = ay + (by - ay) * progress;
-                  const alpha = Math.sin(progress * Math.PI) * (1 - distance / 180) * .48;
-                  ctx.fillStyle = 'rgba(32,123,151,' + alpha + ')';
-                  ctx.beginPath(); ctx.arc(pulseX, pulseY, 2.2, 0, Math.PI * 2); ctx.fill();
-                }
-              }
-            }
-            ctx.fillStyle = 'rgba(47,112,139,0.4)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = 'rgba(47,112,139,0.24)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
+          }
+          trail.forEach(point => { point.age += dt; });
+          trail = trail.filter(point => point.age < 1.15);
+          ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+          for (let i = 1; i < trail.length; i++) {
+            const previous = trail[i - 1], point = trail[i];
+            const life = Math.max(0, 1 - point.age / 1.15);
+            const alpha = life * life;
+            ctx.strokeStyle = 'rgba(43,137,163,' + alpha * .09 + ')';
+            ctx.lineWidth = 13 * life + 2;
+            ctx.beginPath(); ctx.moveTo(previous.x, previous.y); ctx.lineTo(point.x, point.y); ctx.stroke();
+            ctx.strokeStyle = 'rgba(35,125,155,' + alpha * .48 + ')';
+            ctx.lineWidth = 3.2 * life + .4;
+            ctx.beginPath(); ctx.moveTo(previous.x, previous.y); ctx.lineTo(point.x, point.y); ctx.stroke();
           }
           ripples = ripples.filter(ripple => ripple.age < 1.1);
           for (const ripple of ripples) {
@@ -113,9 +113,14 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
           toggle!.hidden = false; toggle!.setAttribute('aria-pressed', String(enabled));
           toggle!.querySelector('span:last-child')!.textContent = `动态背景：${enabled ? '开' : '关'}`;
           if (enabled && !document.hidden) frame = requestAnimationFrame(animate);
-          else { pointer.x = -1000; pointer.y = -1000; ripples = []; nodes.forEach(node => { node.offsetX = 0; node.offsetY = 0; }); draw(0); }
+          else { pointer.x = -1000; pointer.y = -1000; ripples = []; trail = []; nodes.forEach(node => { node.offsetX = 0; node.offsetY = 0; }); draw(0); }
         }
-        window.addEventListener('pointermove', event => { if (enabled && event.pointerType === 'mouse') { pointer.x = event.clientX; pointer.y = event.clientY; } }, { passive: true });
+        window.addEventListener('pointermove', event => { if (enabled && event.pointerType === 'mouse') { pointer.x = event.clientX; pointer.y = event.clientY;
+          const previous = trail[trail.length - 1];
+          if (!previous || Math.hypot(previous.x - pointer.x, previous.y - pointer.y) > 3) {
+            trail.push({ x: pointer.x, y: pointer.y, age: 0 });
+            if (trail.length > 90) trail.shift();
+          } } }, { passive: true });
         document.addEventListener('pointerleave', () => { pointer.x = -1000; pointer.y = -1000; });
         window.addEventListener('blur', () => { pointer.x = -1000; pointer.y = -1000; });
         window.addEventListener('pointerdown', event => {
