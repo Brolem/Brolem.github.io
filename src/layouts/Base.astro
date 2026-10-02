@@ -46,11 +46,11 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
           const ratio = Math.min(window.devicePixelRatio || 1, 2);
           canvas!.width = Math.round(width * ratio); canvas!.height = Math.round(height * ratio);
           context!.setTransform(ratio, 0, 0, ratio, 0, 0);
-          const count = Math.min(26, Math.max(12, Math.round(width * height / 48000)));
+          const count = Math.min(42, Math.max(16, Math.round(width * height / 31000)));
           nodes = Array.from({ length: count }, (_, i) => ({
             x: ((i * .61803398875 + .13) % 1) * width,
             y: ((i * .41421356237 + .21) % 1) * height,
-            vx: Math.cos(i * 2.4) * 12, vy: Math.sin(i * 2.4) * 12,
+            vx: Math.cos(i * 2.4) * 9, vy: Math.sin(i * 2.4) * 9,
             offsetX: 0, offsetY: 0, radius: i % 5 === 0 ? 2.8 : 1.9,
           }));
           ripples = []; trail = []; draw(0);
@@ -77,7 +77,22 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
           }
           for (let i = 0; i < nodes.length; i++) {
             const a = nodes[i]; const ax = a.x + a.offsetX, ay = a.y + a.offsetY;
-            ctx.fillStyle = 'rgba(47,112,139,0.24)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
+            for (let j = i + 1; j < nodes.length; j++) {
+              const b = nodes[j]; const bx = b.x + b.offsetX, by = b.y + b.offsetY;
+              const distance = Math.hypot(ax - bx, ay - by);
+              if (distance < 180) {
+                ctx.strokeStyle = `rgba(55,115,145,${(1 - distance / 180) * .19})`;
+                ctx.lineWidth = .9; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+                if ((i + j) % 6 === 0 && distance > 50) {
+                  const progress = (elapsed * .24 + i * .17 + j * .13) % 1;
+                  const pulseX = ax + (bx - ax) * progress, pulseY = ay + (by - ay) * progress;
+                  const alpha = Math.sin(progress * Math.PI) * (1 - distance / 180) * .32;
+                  ctx.fillStyle = 'rgba(32,123,151,' + alpha + ')';
+                  ctx.beginPath(); ctx.arc(pulseX, pulseY, 2.2, 0, Math.PI * 2); ctx.fill();
+                }
+              }
+            }
+            ctx.fillStyle = 'rgba(47,112,139,0.3)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
           }
           trail.forEach(point => { point.age += dt; });
           trail = trail.filter(point => point.age < 1.15);
