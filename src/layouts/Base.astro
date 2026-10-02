@@ -49,7 +49,7 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
           nodes = Array.from({ length: count }, (_, i) => ({
             x: ((i * .61803398875 + .13) % 1) * width,
             y: ((i * .41421356237 + .21) % 1) * height,
-            vx: Math.cos(i * 2.4) * 9, vy: Math.sin(i * 2.4) * 9,
+            vx: Math.cos(i * 2.4) * 19, vy: Math.sin(i * 2.4) * 19,
             offsetX: 0, offsetY: 0, radius: i % 5 === 0 ? 2.8 : 1.9,
           }));
           ripples = []; draw(0);
@@ -79,19 +79,36 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
             for (let j = i + 1; j < nodes.length; j++) {
               const b = nodes[j]; const bx = b.x + b.offsetX, by = b.y + b.offsetY;
               const distance = Math.hypot(ax - bx, ay - by);
-              if (distance < 180) {
-                ctx.strokeStyle = `rgba(55,115,145,${(1 - distance / 180) * .19})`;
-                ctx.lineWidth = .9; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
-                if ((i + j) % 6 === 0 && distance > 50) {
-                  const progress = (elapsed * .24 + i * .17 + j * .13) % 1;
-                  const pulseX = ax + (bx - ax) * progress, pulseY = ay + (by - ay) * progress;
-                  const alpha = Math.sin(progress * Math.PI) * (1 - distance / 180) * .32;
-                  ctx.fillStyle = 'rgba(32,123,151,' + alpha + ')';
-                  ctx.beginPath(); ctx.arc(pulseX, pulseY, 2.2, 0, Math.PI * 2); ctx.fill();
+              if (distance < 190) {
+                const closeness = 1 - distance / 190;
+                const style = (i * 7 + j * 3) % 10;
+                const curved = style < 3;
+                const dashed = style === 3 || style === 4;
+                const bend = curved ? Math.sin(elapsed * .65 + i) * 16 + 20 : 0;
+                const controlX = (ax + bx) / 2 - (by - ay) / distance * bend;
+                const controlY = (ay + by) / 2 + (bx - ax) / distance * bend;
+                ctx.strokeStyle = 'rgba(55,115,145,' + closeness * .32 + ')';
+                ctx.lineWidth = curved ? 1.2 : 1;
+                ctx.setLineDash(dashed ? [5, 8] : []);
+                ctx.lineDashOffset = -elapsed * 12;
+                ctx.beginPath(); ctx.moveTo(ax, ay);
+                if (curved) ctx.quadraticCurveTo(controlX, controlY, bx, by);
+                else ctx.lineTo(bx, by);
+                ctx.stroke(); ctx.setLineDash([]);
+                if ((i + j) % 3 === 0 && distance > 55) {
+                  const progress = (elapsed * .38 + i * .17 + j * .13) % 1;
+                  const inverse = 1 - progress;
+                  const pulseX = curved ? inverse * inverse * ax + 2 * inverse * progress * controlX + progress * progress * bx : ax + (bx - ax) * progress;
+                  const pulseY = curved ? inverse * inverse * ay + 2 * inverse * progress * controlY + progress * progress * by : ay + (by - ay) * progress;
+                  const alpha = Math.sin(progress * Math.PI) * closeness;
+                  ctx.fillStyle = 'rgba(32,123,151,' + alpha * .12 + ')';
+                  ctx.beginPath(); ctx.arc(pulseX, pulseY, 7, 0, Math.PI * 2); ctx.fill();
+                  ctx.fillStyle = 'rgba(32,123,151,' + alpha * .65 + ')';
+                  ctx.beginPath(); ctx.arc(pulseX, pulseY, 3, 0, Math.PI * 2); ctx.fill();
                 }
               }
             }
-            ctx.fillStyle = 'rgba(47,112,139,0.3)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = 'rgba(47,112,139,0.42)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
           }
           ripples = ripples.filter(ripple => ripple.age < 1.1);
           for (const ripple of ripples) {
