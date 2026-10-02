@@ -40,7 +40,6 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
         type Node = { x: number; y: number; vx: number; vy: number; offsetX: number; offsetY: number; radius: number };
         let nodes: Node[] = [];
         let ripples: { x: number; y: number; age: number }[] = [];
-        let trail: { x: number; y: number; age: number }[] = [];
         function resize() {
           width = window.innerWidth; height = window.innerHeight;
           const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -53,7 +52,7 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
             vx: Math.cos(i * 2.4) * 9, vy: Math.sin(i * 2.4) * 9,
             offsetX: 0, offsetY: 0, radius: i % 5 === 0 ? 2.8 : 1.9,
           }));
-          ripples = []; trail = []; draw(0);
+          ripples = []; draw(0);
         }
         function draw(dt: number) {
           const ctx = context!;
@@ -94,20 +93,6 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
             }
             ctx.fillStyle = 'rgba(47,112,139,0.3)'; ctx.beginPath(); ctx.arc(ax, ay, a.radius, 0, Math.PI * 2); ctx.fill();
           }
-          trail.forEach(point => { point.age += dt; });
-          trail = trail.filter(point => point.age < 1.15);
-          ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-          for (let i = 1; i < trail.length; i++) {
-            const previous = trail[i - 1], point = trail[i];
-            const life = Math.max(0, 1 - point.age / 1.15);
-            const alpha = life * life;
-            ctx.strokeStyle = 'rgba(43,137,163,' + alpha * .09 + ')';
-            ctx.lineWidth = 13 * life + 2;
-            ctx.beginPath(); ctx.moveTo(previous.x, previous.y); ctx.lineTo(point.x, point.y); ctx.stroke();
-            ctx.strokeStyle = 'rgba(35,125,155,' + alpha * .48 + ')';
-            ctx.lineWidth = 3.2 * life + .4;
-            ctx.beginPath(); ctx.moveTo(previous.x, previous.y); ctx.lineTo(point.x, point.y); ctx.stroke();
-          }
           ripples = ripples.filter(ripple => ripple.age < 1.1);
           for (const ripple of ripples) {
             ripple.age += dt; ctx.strokeStyle = `rgba(46,132,154,${Math.max(0, (1 - ripple.age / 1.1) * .35)})`;
@@ -128,14 +113,10 @@ const { title = 'Chen LM · 运筹优化与算电协同', description = 'Chen LM
           toggle!.hidden = false; toggle!.setAttribute('aria-pressed', String(enabled));
           toggle!.querySelector('span:last-child')!.textContent = `动态背景：${enabled ? '开' : '关'}`;
           if (enabled && !document.hidden) frame = requestAnimationFrame(animate);
-          else { pointer.x = -1000; pointer.y = -1000; ripples = []; trail = []; nodes.forEach(node => { node.offsetX = 0; node.offsetY = 0; }); draw(0); }
+          else { pointer.x = -1000; pointer.y = -1000; ripples = []; nodes.forEach(node => { node.offsetX = 0; node.offsetY = 0; }); draw(0); }
         }
         window.addEventListener('pointermove', event => { if (enabled && event.pointerType === 'mouse') { pointer.x = event.clientX; pointer.y = event.clientY;
-          const previous = trail[trail.length - 1];
-          if (!previous || Math.hypot(previous.x - pointer.x, previous.y - pointer.y) > 3) {
-            trail.push({ x: pointer.x, y: pointer.y, age: 0 });
-            if (trail.length > 90) trail.shift();
-          } } }, { passive: true });
+ } }, { passive: true });
         document.addEventListener('pointerleave', () => { pointer.x = -1000; pointer.y = -1000; });
         window.addEventListener('blur', () => { pointer.x = -1000; pointer.y = -1000; });
         window.addEventListener('pointerdown', event => {
