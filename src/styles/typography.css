@@ -17,6 +17,7 @@
   --space-s-l: clamp(1.06250rem, 0.55357rem + 2.26190vw, 2.25000rem);
   --space-l-2xl: clamp(2.12500rem, 1.10714rem + 4.52381vw, 4.50000rem);
   --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', Arial, sans-serif;
+  --text-link: calc(var(--step-0) * .95);
   --text-ui: calc((var(--step--1) + var(--step-0)) / 2);
   --weight-body: 400;
   --weight-heading: 600;

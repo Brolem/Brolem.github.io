@@ -26,10 +26,13 @@ import Base from '../layouts/Base.astro';
     <section class="personal-section" id="work" aria-labelledby="work-title">
       <div class="personal-heading"><h2 id="work-title">最近在做的事</h2><span>进行中</span></div>
       <article class="project-note">
+        <div class="project-copy">
         <h3>算电协同：让计算任务与能源更好地配合</h3>
         <p>电力供应和计算需求都不完全确定，如何安排任务、储能和购电？这是我目前在研究的问题，也是学习数据分析和优化方法的实践场。</p>
         <p class="project-progress">已完成一轮四组对照验证，仍在分析结果与改进方法。</p>
         <a class="note-link" href="/projects/bilateral-uncertainty/">看看项目进展 ↗</a>
+        </div>
+        <figure class="project-visual"><img src="/images/compute-energy-cartoon.png" alt="卡通服务器与风车、光伏板和储能电池组成的算电协同场景" width="1254" height="1254" loading="lazy" decoding="async" /></figure>
       </article>
     </section>
 
@@ -57,7 +60,7 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  .personal-page { width: 55%; max-width: none; }
+  .personal-page { width: 58%; max-width: none; }
   .intro,.personal-section { width: 100%; margin-inline: auto; text-align: left; }
   .intro { padding: calc(var(--space-2xl) + var(--space-s)) 0 var(--space-2xl); scroll-margin-top: var(--space-l); text-align: center; }
   .intro-label { color: var(--ink-muted); font-size: var(--step--1); margin: 0 0 var(--space-m); }
@@ -66,7 +69,7 @@ import Base from '../layouts/Base.astro';
   .intro-lead { font-size: var(--step-1); line-height: 1.65; color: var(--ink-strong); margin: 0 0 var(--space-m); }
   .intro-copy { width: 100%; margin-inline: auto; text-align: left; }
   .intro-copy p,.working-copy p,.next-note p { font-size: var(--step-0); color: var(--ink); margin: 0 0 var(--space-s); }
-  .intro-links { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-xs) var(--space-m); margin-top: var(--space-m); font-size: var(--text-ui); font-weight: 600; color: var(--accent); }
+  .intro-links { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-xs) var(--space-m); margin-top: var(--space-m); font-size: var(--text-link); font-weight: 600; color: var(--accent); }
   .intro-links a:hover,.note-link:hover { text-decoration: underline; text-underline-offset: 5px; }
   .personal-section { border-top: 1px solid var(--rule); padding: var(--space-m) 0 var(--space-xl); scroll-margin-top: var(--space-l); }
   .personal-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-xs) var(--space-s); margin-bottom: var(--space-m); }
@@ -76,11 +79,14 @@ import Base from '../layouts/Base.astro';
   .now-list>div { display: grid; grid-template-columns: 7.5em minmax(0,1fr); gap: var(--space-m); padding: var(--space-xs) 0; }
   dt { color: var(--ink-strong); font-weight: 600; }
   dd { margin: 0; text-align: right; }
-  .project-note { padding: var(--space-m); border: 1px solid #d4e2e8; border-radius: 8px; background: rgba(237,244,247,.88); }
+  .project-note { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: var(--space-m); align-items: center; padding: var(--space-m); border: 1px solid #d4e2e8; border-radius: 8px; background: rgba(237,244,247,.88); }
+  .project-copy { min-width: 0; }
+  .project-visual { display: grid; place-items: center; margin: 0; }
+  .project-visual img { display: block; width: 100%; max-width: 19rem; height: auto; }
   h3 { font-size: var(--step-1); line-height: 1.6; margin: 0 0 var(--space-s); }
   .project-note p { margin: 0 0 var(--space-s); }
   .project-note .project-progress { color: var(--ink-muted); font-size: var(--text-ui); }
-  .note-link { display: inline-block; color: var(--accent); font-size: var(--text-ui); font-weight: 600; margin-top: var(--space-xs); }
+  .note-link { display: inline-block; color: var(--accent); font-size: var(--text-link); font-weight: 600; margin-top: var(--space-xs); }
   .working-copy strong { color: var(--ink-strong); }
   .personality-details { margin-top: var(--space-m); border-top: 1px solid #dbe5e9; padding-top: var(--space-s); }
   summary { cursor: pointer; color: var(--accent); font-size: var(--text-ui); width: fit-content; }
@@ -89,6 +95,10 @@ import Base from '../layouts/Base.astro';
   iframe { display: block; width: 100%; max-width: 440px; height: 500px; border: 1px solid #d7e1e7; border-radius: 7px; background: white; }
   .next-note { margin-bottom: var(--space-l); }
   .next-note h2 { margin-bottom: var(--space-s); }
+  @media(max-width:1100px) {
+    .project-note { grid-template-columns: minmax(0,1fr); }
+    .project-visual img { max-width: 16rem; }
+  }
   @media(max-width:1024px) {
     .personal-page { width: calc(100% - 36px); }
   }
