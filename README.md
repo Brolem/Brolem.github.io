@@ -29,3 +29,7 @@ npm run dev
 将源码推送到 `Brolem/Brolem.github.io` 仓库的 `main` 分支，在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。项目内的 `.github/workflows/deploy.yml` 会在推送时构建和部署。网站地址为 `https://brolem.github.io/`。
 
 首页：`src/pages/index.astro`；研究案例：`src/pages/projects/bilateral-uncertainty.astro`；共用样式：`src/styles/global.css`。研究进度变化时，同步更新首页状态、案例页的阶段验证、结果与结论边界，并重新核对学习阶段。
+
+## 排版维护
+
+采用 Utopia 流式字号与间距标尺（https://utopia.fyi/），静态规则保存在 `src/styles/typography.css`，无需运行时依赖。视口 360–1200px，基础字号 17–18px，字号比例 1.20–1.22；所有页面使用同一组语义颜色、字重和行高。调整排版时集中修改标尺，不逐元素添加固定字号或在文件末尾追加覆盖规则。保留浅色轻盈背景，不恢复白色阅读底板。
