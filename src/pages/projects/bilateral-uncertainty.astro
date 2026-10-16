@@ -1,15 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
 ---
-<Base title="双侧不确定性下的算电协同优化 · Chen LM" description="当前研究项目：任务驱动算力可调度域、风光日前误差、确定性基准与任务级可实现性审计。">
+<Base title="双侧不确定性下的算电协同优化 · Chen LM" description="算电协同研究进展：每日滚动两阶段模型、四组场景对照与21天验证；当前结果边界与后续学习。">
   <article class="case wrap">
     <a class="back-link" href="/#work">← 返回当前项目</a>
-    <div class="case-header"><p class="eyebrow">RESEARCH CASE / ACTIVE</p><h1>双侧不确定性下的<br /><span>算电协同优化</span></h1><p class="case-lead">未来任务何时到达、需要多少计算量，以及风光出力会怎样偏离预测？在这些信息尚不确定时，怎样制定真正能由任务执行的调度方案？</p><div class="case-meta"><div><span>对象</span><strong>算力任务 + 能源系统</strong></div><div><span>方法</span><strong>可调度域 · 场景 · 优化</strong></div><div><span>状态</span><strong>研究推进中</strong></div></div></div>
+    <div class="case-header"><p class="eyebrow">RESEARCH CASE / UPDATED 2026-10-16</p><h1>双侧不确定性下的<br /><span>算电协同优化</span></h1><p class="case-lead">未来任务与风光出力存在不确定性时，增加场景信息是否真的能改善计算任务、储能与购电决策？用统一模型和对照实验检验，而非预设联合建模一定更优。</p><div class="case-meta"><div><span>对象</span><strong>算力任务 + 能源系统</strong></div><div><span>方法</span><strong>两阶段模型 · 每日滚动</strong></div><div><span>状态</span><strong>四组验证完成 · 研究进行中</strong></div></div></div>
     <div class="case-content">
-      <section><span class="case-step">01 / SCOPE</span><div><h2>研究问题</h2><p>算力侧的不确定性来自未来任务集合，包括到达时间、任务类型、GPU 需求和预计时长；能源侧关注风光日前预测误差。研究目标是建立能够衔接数据、任务约束和电力调度的优化框架，并用任务级验证约束聚合模型的适用范围。</p></div></section>
-      <section><span class="case-step">02 / BUILT</span><div><h2>已经建立的基础</h2><div class="case-table"><div><strong>数据与场景</strong><p>完成算力和能源原始数据的标准化、时间顺序划分，以及算力与能源的边际场景库。保留原始数据只读语义和处理清单。</p></div><div><strong>模型与诊断</strong><p>实现任务可调度域、滚动状态和确定性聚合基准；用任务级分解检验聚合轨迹是否可实现。</p></div></div></div></section>
-      <section><span class="case-step">03 / FINDING</span><div><h2>当前关键发现</h2><p>一个确定性聚合基准的诊断表明：总体计算服务量与共享 GPU 容量可以满足，并不保证逐小时聚合轨迹能精确分解到原始任务。因此该基准目前只作为模型诊断参考，不能算正式性能结果。另一项算力场景预算原型未通过对照门槛，后续需要先修正参数化和搜索效率。</p></div></section>
-      <section><span class="case-step">04 / NEXT</span><div><h2>待完成的验证</h2><p>双侧联合场景协议、最终不确定性优化器与正式样本外实验尚未冻结或运行。项目目前没有可公开宣称的优化收益比例；结论会随可实现性审计和正式实验更新。</p><p class="repository-visibility">研究仓库暂未公开；本页仅展示已经核验、适合公开的阶段信息。</p></div></section>
+      <section><span class="case-step">01 / SCOPE</span><div><h2>研究问题与当前方法</h2><p>算力侧关注未来任务集合，能源侧关注风光日前预测误差。当前采用 48 小时前瞻、每日滚动的两阶段模型：在各场景间共享第一阶段决策，第二阶段按场景设置补救决策。任务余额、执行窗口与储能状态跨日传递，实际成本在执行后单独核算。</p></div></section>
+      <section><span class="case-step">02 / VERIFIED</span><div><h2>已经完成的阶段验证</h2><p>截至 2026 年 10 月 15 日，当前协议的四组对照均完成 20 个主日和 1 个收尾日，共 21 天、504 小时；实际输出通过独立读取与验收，并生成对应图表。</p><div class="case-table"><div><strong>四组场景对照</strong><p>确定性基准、仅算力不确定、仅能源不确定、双侧联合不确定。固定比较协议，分别检验两侧场景信息的影响。</p></div><div><strong>证据与结果复核</strong><p>逐日检查任务服务、跨日余额、储能状态与成本账务，区分静态检查、实际运行和独立结果复核。</p></div></div></div></section>
+      <section><span class="case-step">03 / FINDING</span><div><h2>当前结果：复杂度没有自动转化为收益</h2><p>在本次验证窗口中，仅能源不确定设置的总成本最低，双侧联合设置未显示成本优势。各组服务量和弃电量近乎相同，成本差异主要反映购电时序。这提示后续应分析信息质量、算力约束压力与滚动状态的作用，不能仅凭增加场景就宣称方法更优。</p></div></section>
+      <section><span class="case-step">04 / LIMITS</span><div><h2>结论适用范围</h2><p>当前实验将当日真实值作为已知信息，未来能源使用日前预测的重复代理，并假定算力与能源场景独立组合；收尾储能状态未设置固定目标。它属于受控比较，不能解释为可直接部署的在线调度策略。当前 V2 协议的样本外实验尚未运行，历史协议的样本外结果也不能替代它。</p></div></section>
+      <section><span class="case-step">05 / LEARNING & NEXT</span><div><h2>正在学习与下一步验证</h2><p>我正在深化对场景补救、概率加权目标与跨日状态反馈的理解，并学习区分“决策状态变化”和“外生任务预测变化”。项目下一步已准备算力压力对照，尚未实际运行；后续需要完成当前协议的样本外检验，再判断结果能否推广。</p><p class="repository-visibility">研究使用 AI 辅助开发与审查；上述为项目证据进度，不代表个人已独立熟练掌握全部方法。研究仓库暂未公开，本页仅摘要展示阶段进展。</p></div></section>
     </div>
   </article>
 </Base>
