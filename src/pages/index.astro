@@ -57,8 +57,8 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  .personal-page { max-width: 860px; --reading-measure: 44rem; }
-  .intro,.personal-section { width: min(100%, var(--reading-measure)); margin-inline: auto; text-align: left; }
+  .personal-page { width: 55%; max-width: none; }
+  .intro,.personal-section { width: 100%; margin-inline: auto; text-align: left; }
   .intro { padding: calc(var(--space-2xl) + var(--space-s)) 0 var(--space-2xl); scroll-margin-top: var(--space-l); text-align: center; }
   .intro-label { color: var(--ink-muted); font-size: var(--step--1); margin: 0 0 var(--space-m); }
   h1 { font-size: var(--step-5); letter-spacing: -.025em; margin: 0 0 var(--space-s); }
@@ -75,7 +75,7 @@ import Base from '../layouts/Base.astro';
   .now-list { margin: 0; }
   .now-list>div { display: grid; grid-template-columns: 7.5em minmax(0,1fr); gap: var(--space-m); padding: var(--space-xs) 0; }
   dt { color: var(--ink-strong); font-weight: 600; }
-  dd { margin: 0; }
+  dd { margin: 0; text-align: right; }
   .project-note { padding: var(--space-m); border: 1px solid #d4e2e8; border-radius: 8px; background: rgba(237,244,247,.88); }
   h3 { font-size: var(--step-1); line-height: 1.6; margin: 0 0 var(--space-s); }
   .project-note p { margin: 0 0 var(--space-s); }
@@ -89,6 +89,9 @@ import Base from '../layouts/Base.astro';
   iframe { display: block; width: 100%; max-width: 440px; height: 500px; border: 1px solid #d7e1e7; border-radius: 7px; background: white; }
   .next-note { margin-bottom: var(--space-l); }
   .next-note h2 { margin-bottom: var(--space-s); }
+  @media(max-width:1024px) {
+    .personal-page { width: calc(100% - 36px); }
+  }
   @media(max-width:670px) {
     .intro { padding: var(--space-xl) 0; }
     .now-list>div { grid-template-columns: minmax(0,1fr); gap: var(--space-2xs); padding: var(--space-xs) 0; }
