@@ -58,42 +58,42 @@ import Base from '../layouts/Base.astro';
 <style>
   .personal-page { max-width: 860px; }
   .intro { padding: 90px 0 66px; scroll-margin-top: 30px; }
-  .intro-label { color: #69818e; font-size: 13px; margin: 0 0 24px; }
-  h1 { font-size: clamp(34px, 5vw, 58px); font-weight: 600; letter-spacing: -.045em; line-height: 1.25; margin: 0 0 22px; }
+  .intro-label { color: #69818e; font-size: 15px; margin: 0 0 24px; }
+  h1 { font-size: clamp(36px, 5vw, 60px); font-weight: 600; letter-spacing: -.02em; line-height: 1.25; margin: 0 0 22px; }
   h1 span { color: #16758a; }
   .intro-lead { font-size: 22px; line-height: 1.6; color: #344e5d; margin: 0 0 25px; }
-  .intro-copy { max-width: 680px; }
-  .intro-copy p, .working-copy p, .next-note p { color: #526b79; font-size: 16px; line-height: 1.95; margin: 0 0 14px; }
-  .intro-links { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 28px; font-size: 14px; font-weight: 600; color: #226879; }
+  .intro-copy { max-width: 720px; }
+  .intro-copy p, .working-copy p, .next-note p { color: #405766; font-size: 18px; line-height: 1.9; margin: 0 0 14px; }
+  .intro-links { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 28px; font-size: 16px; font-weight: 600; color: #226879; }
   .intro-links a:hover, .note-link:hover { text-decoration: underline; text-underline-offset: 5px; }
   .personal-section { border-top: 1px solid #cddce2; padding: 30px 0 44px; scroll-margin-top: 30px; }
   .personal-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 23px; }
-  h2 { font-size: 23px; letter-spacing: -.025em; font-weight: 600; margin: 0; }
-  .personal-heading > span { color: #738994; font-size: 12px; }
+  h2 { font-size: 25px; letter-spacing: 0; font-weight: 600; margin: 0; }
+  .personal-heading > span { color: #536b78; font-size: 14px; }
   .now-list { margin: 0; }
   .now-list > div { display: grid; grid-template-columns: 125px 1fr; gap: 24px; padding: 13px 0; }
-  dt { font-size: 15px; color: #334e5e; font-weight: 600; line-height: 1.8; }
-  dd { font-size: 15px; line-height: 1.8; color: #607784; margin: 0; }
+  dt { font-size: 17px; color: #334e5e; font-weight: 600; line-height: 1.8; }
+  dd { font-size: 17px; line-height: 1.8; color: #4b6270; margin: 0; }
   .project-note { padding: 25px 28px; border: 1px solid #d4e2e8; border-radius: 8px; background: rgba(237,244,247,.86); }
-  h3 { font-size: 20px; font-weight: 600; line-height: 1.6; margin: 0 0 12px; }
-  .project-note p { font-size: 15px; line-height: 1.9; color: #526b79; margin: 0 0 12px; }
-  .project-note .project-progress { font-size: 13px; color: #6c818b; }
-  .note-link { display: inline-block; color: #226879; font-size: 14px; font-weight: 600; margin-top: 8px; }
+  h3 { font-size: 21px; font-weight: 600; line-height: 1.6; margin: 0 0 12px; }
+  .project-note p { font-size: 17px; line-height: 1.9; color: #405766; margin: 0 0 12px; }
+  .project-note .project-progress { font-size: 15px; color: #536b78; }
+  .note-link { display: inline-block; color: #226879; font-size: 16px; font-weight: 600; margin-top: 8px; }
   .working-copy strong { color: #334e5e; font-weight: 600; }
   .personality-details { margin-top: 24px; border-top: 1px solid #dbe5e9; padding-top: 19px; }
-  summary { cursor: pointer; color: #53717f; font-size: 14px; width: fit-content; }
+  summary { cursor: pointer; color: #53717f; font-size: 16px; width: fit-content; }
   summary:focus-visible { outline: 3px solid #126577; outline-offset: 5px; }
-  .personality-details p { font-size: 14px; color: #6c818b; line-height: 1.8; margin-top: 20px; }
+  .personality-details p { font-size: 16px; color: #536b78; line-height: 1.8; margin-top: 20px; }
   iframe { display: block; width: 100%; max-width: 440px; height: 500px; border: 1px solid #d7e1e7; border-radius: 7px; background: #fff; }
   .next-note { margin-bottom: 35px; }
   .next-note h2 { margin-bottom: 18px; }
   @media (max-width: 670px) {
     .intro { padding: 55px 0 43px; }
     .intro-lead { font-size: 19px; }
-    .intro-copy p, .working-copy p, .next-note p { font-size: 15px; }
+    .intro-copy p, .working-copy p, .next-note p { font-size: 17px; }
     .personal-section { padding: 25px 0 32px; }
     .now-list > div { grid-template-columns: 1fr; gap: 5px; padding: 11px 0; }
     .project-note { padding: 20px; }
-    h3 { font-size: 18px; }
+    h3 { font-size: 20px; }
   }
 </style>
