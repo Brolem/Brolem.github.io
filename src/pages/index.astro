@@ -8,10 +8,21 @@ import Base from '../layouts/Base.astro';
       <h1 id="intro-title">你好，我是 <span>Chen LM.</span></h1>
       <p class="intro-lead">在学习，也在慢慢找到自己的方向。</p>
       <div class="intro-copy">
-        <p>控制科学与工程硕士在读。目前把时间放在学习、项目和实习准备上，对数据如何帮助我们做决策很感兴趣。</p>
+        <p>控制科学与工程硕士在读。最近把时间放在研究、学习和梳理自己的方向上，对数据如何帮助我们做决策很感兴趣。</p>
         <p>遇到一个问题，我通常想先弄明白它为什么成立，再试着把它做出来。我喜欢清楚的解释、简洁的实现，也愿意在发现问题时调整方向。</p>
       </div>
-      <div class="intro-links"><a href="/resume/">我的简历 ↗</a><a href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#work">最近在做什么 ↓</a></div>
+      <p class="intro-update">最近更新 · <time datetime="2026-10-29">2026.10.29</time> · 留下一些学习中的想法</p>
+      <div class="intro-links"><a href="/resume/">我的简历 ↗</a><a href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#notes">读读最近的想法 ↓</a><a href="#work">最近在做什么 ↓</a></div>
+    </section>
+
+    <section class="personal-section" id="notes" aria-labelledby="notes-title">
+      <div class="personal-heading"><h2 id="notes-title">最近在想什么</h2><span>2026 年 10 月 · 点击展开</span></div>
+      <p class="section-intro">一些从研究里长出来的想法。还在变化，也值得先记下来。</p>
+      <div class="thought-grid">
+        <details class="thought"><summary><span class="note-topic">01 / 问题与方法</span><span class="thought-title">先确认问题，再挑选方法</span><span class="note-teaser">“问题不是创造出来的，是发现的。”</span></summary><p>做研究让我越来越在意：这个问题在现实里存在吗？支撑它的数据，真的能体现它的机制吗？</p><p>比起先选一个复杂算法，我希望先看清场景里的矛盾，再决定怎样建模。让数据来检验想法，而不是为了证明想法去安排数据。</p></details>
+        <details class="thought"><summary><span class="note-topic">02 / 我和 AI</span><span class="thought-title">执行越快，越需要判断方向</span><span class="note-teaser">会运行的代码，不等于走对了路。</span></summary><p>AI 能帮我写代码、跑实验，但一个复杂项目里，文字、模型、代码与实验很容易逐渐不一致。</p><p>我正在学习把“做得快”和“判断得对”分开：先想清楚要验证什么，再让 AI 执行；结果出来后，重新检查它究竟回答了什么。</p></details>
+        <details class="thought"><summary><span class="note-topic">03 / 学习的意义</span><span class="thought-title">暂时用不到的知识，也有价值</span><span class="note-teaser">别的领域，可能藏着理解问题的新角度。</span></summary><p>原本以为与眼前任务无关的知识，在研究中也可能派上用场。不同领域的概念，有时能帮我发现以前没注意到的问题。</p><p>我想继续保留这种好奇心，同时多问一步：相似的方法换到新场景，原来的假设还成立吗？</p></details>
+      </div>
     </section>
 
     <section class="personal-section" aria-labelledby="now-title">
@@ -29,11 +40,19 @@ import Base from '../layouts/Base.astro';
         <div class="project-copy">
         <h3>算电协同：让计算任务与能源更好地配合</h3>
         <p>电力供应和计算需求都不完全确定，如何安排任务、储能和购电？这是我目前在研究的问题，也是学习数据分析和优化方法的实践场。</p>
-        <p class="project-progress">已完成一轮四组对照验证，仍在分析结果与改进方法。</p>
+        <p class="project-progress">近期在重新核对物理假设、校准风光与任务场景，并准备跨日可行性验证。当前版本尚未运行正式联合优化。</p>
         <a class="note-link" href="/projects/bilateral-uncertainty/">看看项目进展 ↗</a>
         </div>
         <figure class="project-visual"><img src="/images/compute-energy-cartoon.png" alt="卡通服务器与风车、光伏板和储能电池组成的算电协同场景" width="1254" height="1254" loading="lazy" decoding="async" /></figure>
       </article>
+    </section>
+
+    <section class="personal-section" id="small-discovery" aria-labelledby="discovery-title">
+      <div class="personal-heading"><h2 id="discovery-title">一个小发现</h2><span>来自需求预测学习</span></div>
+      <div class="discovery-card">
+        <div><p class="note-topic">预测之后，还要做决策</p><h3>周五下单，该看哪一天的需求？</h3><p>我在学习补货时发现，预测得准还不够，预测的日期也要与到货时间对上。周末需求更高时，一天的错位就可能改变决策。</p><label class="arrival-control" for="arrival-delay">换一个到货时间看看<select id="arrival-delay"><option value="0">当天到货</option><option value="1" selected>第二天到货</option><option value="2">第三天到货</option></select></label><p class="demo-caption">简化的学习示例：只说明日期对应关系，不计算实际订货量。</p></div>
+        <div class="arrival-example" aria-live="polite" aria-atomic="true"><div class="arrival-route"><div><span>下单</span><strong>周五</strong></div><span class="route-arrow" aria-hidden="true">→</span><div class="arrival-target"><span>到货</span><strong id="arrival-day">周六</strong></div></div><p id="arrival-explanation">这笔订单要服务周六，因此对应周六的需求预测。</p><span class="discovery-takeaway">订单什么时候到，就看哪一天。</span></div>
+      </div>
     </section>
 
     <section class="personal-section" aria-labelledby="personality-title">
@@ -51,13 +70,34 @@ import Base from '../layouts/Base.astro';
       </details>
     </section>
 
+    <section class="personal-section" aria-labelledby="trail-title">
+      <div class="personal-heading"><h2 id="trail-title">一路上的小尝试</h2><span>积累中，不是完成清单</span></div>
+      <ol class="learning-trail"><li><span class="note-topic">从数据开始</span><h3>从销量，想到需求</h3><p>学习预测与补货，也开始留意库存、缺货和时间错位怎样影响看到的数据。</p><a class="note-link" href="#small-discovery">看看这个小例子 ↑</a></li><li><span class="note-topic">走进真实约束</span><h3>从模型，回到任务</h3><p>在算电协同中学习：一个看起来可行的总量方案，还需要接受具体任务和期限的检验。</p><a class="note-link" href="/projects/bilateral-uncertainty/">研究里的尝试 ↗</a></li><li><span class="note-topic">也做一点表达</span><h3>把学习，整理成一个主页</h3><p>反复调整这里的内容和排版，希望它既能说明我在做什么，也能留下想法变化的过程。</p><a class="note-link" href="#notes">回到最近的想法 ↑</a></li></ol>
+    </section>
+
     <section class="personal-section next-note" aria-labelledby="next-title">
       <h2 id="next-title">接下来</h2>
-      <p>继续积累项目经验，也在关注上海的实习机会：能源数字化、算力资源与成本分析，以及优化决策相关方向。</p>
+      <p>继续把研究问题想清楚，把数据分析与策略优化的基础练扎实。对于实习，我更希望找到与兴趣、能力和研究节奏相匹配的机会，不只追赶进度；也会保持对合适机会的关注。</p>
+      <p>目前关注数据分析与策略优化，也对能源数字化、算力资源和成本分析感兴趣；不把自己限定在单一行业。</p>
       <a class="note-link" href="/resume/">查看公开版简历 ↗</a>
     </section>
   </div>
 </Base>
+
+<script>
+  const arrivalSelect = document.querySelector<HTMLSelectElement>('#arrival-delay');
+  const arrivalDay = document.querySelector<HTMLElement>('#arrival-day');
+  const arrivalExplanation = document.querySelector<HTMLElement>('#arrival-explanation');
+  if (arrivalSelect && arrivalDay && arrivalExplanation) {
+    const days = ['周五', '周六', '周日'];
+    arrivalSelect.addEventListener('change', () => {
+      const day = days[Number(arrivalSelect.value)];
+      if (!day) return;
+      arrivalDay.textContent = day;
+      arrivalExplanation.textContent = `这笔订单要服务${day}，因此对应${day}的需求预测。`;
+    });
+  }
+</script>
 
 <style>
   .personal-page { width: 58%; max-width: none; }
@@ -95,6 +135,37 @@ import Base from '../layouts/Base.astro';
   iframe { display: block; width: 100%; max-width: 440px; height: 500px; border: 1px solid #d7e1e7; border-radius: 7px; background: white; }
   .next-note { margin-bottom: var(--space-l); }
   .next-note h2 { margin-bottom: var(--space-s); }
+  .intro-update { color: var(--ink-muted); font-size: var(--step--1); margin: var(--space-m) 0 0; }
+  .section-intro { color: var(--ink-muted); margin: 0 0 var(--space-m); }
+  .thought-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--space-s); align-items: start; }
+  .thought { padding: var(--space-s); border: 1px solid #d4e2e8; border-radius: 8px; background: rgba(245,249,251,.82); }
+  .thought summary { width: 100%; color: var(--ink); list-style: none; position: relative; padding-bottom: var(--space-m); }
+  .thought summary::-webkit-details-marker { display: none; }
+  .thought summary::after { content: '+'; position: absolute; bottom: 0; right: 0; color: var(--accent); font-size: var(--step-1); line-height: 1; }
+  .thought[open] summary::after { content: '−'; }
+  .note-topic { display: block; color: var(--ink-muted); font-size: var(--step--1); font-weight: 600; margin: 0 0 var(--space-s); }
+  .thought-title { display: block; color: var(--ink-strong); font-size: var(--step-1); font-weight: 600; line-height: 1.5; margin-bottom: var(--space-s); }
+  .note-teaser { display: block; color: var(--ink-muted); font-size: var(--text-ui); line-height: 1.8; }
+  .thought p { font-size: var(--text-ui); margin: var(--space-s) 0 0; }
+  .discovery-card { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); gap: var(--space-l); align-items: center; padding: var(--space-m); border: 1px solid #d4e2e8; border-radius: 8px; background: rgba(237,244,247,.82); }
+  .discovery-card p { margin: 0 0 var(--space-s); }
+  .discovery-card .note-topic { margin-bottom: var(--space-s); }
+  .arrival-control { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; font-size: var(--text-ui); }
+  select { min-width: 9em; max-width: 100%; padding: .5em .75em; border: 1px solid #a9c3cf; border-radius: 6px; background: #f9fcfd; color: var(--ink-strong); font: inherit; }
+  select:focus-visible { outline: 3px solid #126577; outline-offset: 3px; }
+  .discovery-card .demo-caption { color: var(--ink-muted); font-size: var(--step--1); margin: var(--space-s) 0 0; }
+  .arrival-example { text-align: center; min-width: 0; }
+  .arrival-route { display: flex; justify-content: center; align-items: center; gap: var(--space-s); margin-bottom: var(--space-m); }
+  .arrival-route>div { display: grid; gap: var(--space-xs); padding: var(--space-s) var(--space-m); background: #f5f9fb; border: 1px solid #d4e2e8; border-radius: 8px; }
+  .arrival-route span { font-size: var(--text-ui); color: var(--ink-muted); }
+  .arrival-route strong { font-size: var(--step-2); color: var(--ink-strong); }
+  .arrival-route .arrival-target { background: #dceef0; border-color: #b8d8dc; }
+  .arrival-example p { font-size: var(--text-ui); }
+  .discovery-takeaway { display: block; color: var(--accent); font-size: var(--text-ui); font-weight: 600; }
+  .learning-trail { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--space-m); }
+  .learning-trail li { padding: 0 0 0 var(--space-s); border-left: 2px solid #b6d1da; min-width: 0; }
+  .learning-trail p { margin: 0 0 var(--space-s); font-size: var(--text-ui); }
+  @media(max-width:1100px) { .thought-grid,.learning-trail,.discovery-card { grid-template-columns: minmax(0,1fr); } .thought summary { padding-right: var(--space-m); padding-bottom: 0; } .thought summary::after { bottom: auto; top: 0; } }
   @media(max-width:1100px) {
     .project-note { grid-template-columns: minmax(0,1fr); }
     .project-visual img { max-width: 16rem; }
