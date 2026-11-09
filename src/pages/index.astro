@@ -1,17 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Chen LM · 个人主页" description="你好，我是 Chen LM。控制科学与工程硕士在读，记录正在学习的东西、做过的尝试，以及一点关于我。">
+<Base title="Chen LM · 个人主页" description="控制科学与工程硕士在读，关注运筹优化、预测与决策、算电协同；记录研究进展与实习方向。">
   <div class="personal-page wrap">
     <section class="intro" id="about" aria-labelledby="intro-title">
       <p class="intro-label">一点关于我</p>
       <h1 id="intro-title">你好，我是 <span>Chen LM.</span></h1>
-      <p class="intro-lead">在学习，也在慢慢找到自己的方向。</p>
+      <p class="intro-lead">从数据与约束出发，研究预测如何进入实际决策。</p>
       <div class="intro-copy">
-        <p>控制科学与工程硕士在读。最近把时间放在研究、学习和梳理自己的方向上，对数据如何帮助我们做决策很感兴趣。</p>
+        <p>控制科学与工程硕士在读。近期研究计算任务与新能源不确定性下的算电协同，也在学习需求预测与运筹优化，关注模型在连续运行中能否兑现任务期限。</p>
         <p>遇到一个问题，我通常想先弄明白它为什么成立，再试着把它做出来。我喜欢清楚的解释、简洁的实现，也愿意在发现问题时调整方向。</p>
       </div>
-      <p class="intro-update">最近更新 · <time datetime="2026-10-29">2026.10.29</time> · 留下一些学习中的想法</p>
+      <p class="intro-update">最近更新 · <time datetime="2026-11-09">2026.11.09</time> · 更新研究进展与实习方向</p>
       <div class="intro-links"><a href="/resume/">我的简历 ↗</a><a href="https://github.com/Brolem" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#notes">读读最近的想法 ↓</a><a href="#work">最近在做什么 ↓</a></div>
     </section>
 
@@ -35,12 +35,12 @@ import Base from '../layouts/Base.astro';
     </section>
 
     <section class="personal-section" id="work" aria-labelledby="work-title">
-      <div class="personal-heading"><h2 id="work-title">最近在做的事</h2><span>进行中</span></div>
+      <div class="personal-heading"><h2 id="work-title">最近在做的事</h2><span>研究中 · 阶段性结果</span></div>
       <article class="project-note">
         <div class="project-copy">
         <h3>算电协同：让计算任务与能源更好地配合</h3>
         <p>电力供应和计算需求都不完全确定，如何安排任务、储能和购电？这是我目前在研究的问题，也是学习数据分析和优化方法的实践场。</p>
-        <p class="project-progress">近期在重新核对物理假设、校准风光与任务场景，并准备跨日可行性验证。当前版本尚未运行正式联合优化。</p>
+        <p class="project-progress">已完成 2024 年连续 504 小时的部分策略回放及双侧不确定性来源对照。不同策略有费用与任务延迟的取舍，也有在后续滚动日被证明不可行的档位；结论仅限当前数据与评价协议。</p>
         <a class="note-link" href="/projects/bilateral-uncertainty/">看看项目进展 ↗</a>
         </div>
         <figure class="project-visual"><img src="/images/compute-energy-cartoon.png" alt="卡通服务器与风车、光伏板和储能电池组成的算电协同场景" width="1254" height="1254" loading="lazy" decoding="async" /></figure>
@@ -77,7 +77,7 @@ import Base from '../layouts/Base.astro';
 
     <section class="personal-section next-note" aria-labelledby="next-title">
       <h2 id="next-title">接下来</h2>
-      <p>继续把研究问题想清楚，把数据分析与策略优化的基础练扎实。对于实习，我更希望找到与兴趣、能力和研究节奏相匹配的机会，不只追赶进度；也会保持对合适机会的关注。</p>
+      <p>继续核对模型假设、实验协议和连续滚动结果，同时准备运筹优化、决策智能与调度算法相关实习面试。希望把问题定义、Python 实现和结果解释连接起来。</p>
       <p>目前关注数据分析与策略优化，也对能源数字化、算力资源和成本分析感兴趣；不把自己限定在单一行业。</p>
       <a class="note-link" href="/resume/">查看公开版简历 ↗</a>
     </section>
