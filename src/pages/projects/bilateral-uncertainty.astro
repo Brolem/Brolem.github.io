@@ -1,16 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
 ---
-<Base title="双侧不确定性下的算电协同优化 · Chen LM" description="当前研究：任务与风光不确定性下的跨日可行性、储能状态继承和成本—可靠性权衡。2026年10月阶段更新。">
+<Base title="双侧不确定性下的算电协同优化 · Chen LM" description="算电协同研究进展：多目标滚动调度、2024 年连续回放、不确定性来源对照及结果边界。2026 年 11 月更新。">
   <article class="case wrap">
     <a class="back-link" href="/#work">← 返回当前项目</a>
-    <div class="case-header"><p class="eyebrow">RESEARCH CASE / UPDATED 2026-10-29</p><h1>双侧不确定性下的<br /><span>算电协同优化</span></h1><p class="case-lead">当计算任务和风光出力都不确定时，先弄清调度能否兑现任务期限，再讨论成本与可靠性之间的取舍。</p><div class="case-meta"><div><span>对象</span><strong>计算任务 · 能源 · 储能</strong></div><div><span>方法</span><strong>场景建模 · 跨日滚动</strong></div><div><span>当前阶段</span><strong>场景校准与可行性验证准备</strong></div></div></div>
+    <div class="case-header"><p class="eyebrow">RESEARCH CASE / UPDATED 2026-11-09</p><h1>双侧不确定性下的<br /><span>算电协同优化</span></h1><p class="case-lead">当计算任务和风光出力都有不确定性时，怎样在控制购电成本的同时，让柔性任务及时完成，并保持跨日调度可行？</p><div class="case-meta"><div><span>对象</span><strong>计算任务 · 能源 · 储能</strong></div><div><span>方法</span><strong>双阶段随机规划 · 滚动执行</strong></div><div><span>进展</span><strong>连续回放与来源消融已完成</strong></div></div></div>
     <div class="case-content">
-      <section><span class="case-step">01 / QUESTION</span><div><h2>从“有没有收益”，回到“问题是否成立”</h2><p>研究关注任务到达与风光出力双侧不确定性下，严格任务期限的可行边界、储能状态的跨日继承，以及成本与可靠性的关系。采用 48 小时计划、24 小时执行的滚动框架，未完成任务保留原期限；不预设随机规划必然更省钱或更可靠。</p></div></section>
-      <section><span class="case-step">02 / CURRENT</span><div><h2>当前进展</h2><p>截至 2026 年 10 月 29 日，研究已迁移至新仓库，并进入新的物理设计版本。四季能源场景已完成选择；任务侧已完成训练规则冻结、开发集选型与重拟合，形成候选方案。任务正式运行方案与联合场景尚未最终定案，当前版本的正式联合优化尚未运行。</p><div class="case-table"><div><strong>能源与任务场景</strong><p>分别核对物理参数、时间划分、场景概率与代表性，保留独立评价数据，避免用评价结果反向选择场景。</p></div><div><strong>跨日可行性</strong><p>下一步围绕任务执行窗口、资源容量和跨日余额验证可行性，再判断是否具备进入正式成本对照的条件。</p></div></div></div></section>
-      <section><span class="case-step">03 / HISTORY</span><div><h2>历史尝试保留，但不代替当前证据</h2><p>此前版本做过四组不确定性对照与独立结果复核，也遇到过聚合方案可行却不一定能兑现具体任务的情况。这些尝试帮助我重新检查模型与物理假设。旧版本的成功运行和费用结果只属于当时的实验，不能证明新版本的效果，也不作为当前方案的收益承诺。</p></div></section>
-      <section><span class="case-step">04 / LEARNING</span><div><h2>这项研究正在教会我什么</h2><p>把现实约束翻译成模型，比写出一个能运行的优化程序更难。我正在学习检查场景里的问题是否真实、数据是否支持机制，以及研究目标、数学模型、代码与实验协议是否一致。AI 辅助我执行与审查，但这些判断仍需要自己逐步建立。</p></div></section>
-      <section><span class="case-step">05 / BOUNDARIES</span><div><h2>目前能说什么</h2><p>当前可介绍的是问题定义、建模框架和已完成的校准工作。部分数据仍采用有边界的离线代理，不代表完整的在线信息条件；现有证据不足以宣称新版本的成本改善、可靠性优势或实际部署效果。</p><p class="repository-visibility">研究仓库暂未公开。本页为阶段性摘要，最近核对于 2026 年 10 月 29 日。</p></div></section>
+      <section><span class="case-step">01 / QUESTION</span><div><h2>将费用与任务及时性一起检验</h2><p>使用 48 小时计划、首 24 小时真实执行的滚动框架。当前日任务和物理决策跨场景共享，次日允许按场景补救；未完成任务、储能电量和上一小时购电状态传入下一天。模型比较期望购电费与柔性任务及时性代理，真实回放再核对费用、原 TaskID 的完成延迟及期限约束。</p></div></section>
+      <section><span class="case-step">02 / EVIDENCE</span><div><h2>连续运行揭示了什么</h2><p>在同一条 2024 年评价轨迹上，双侧联合场景的七档权衡参数中，四档完成 504 小时及全部 10,034 个真实 TaskID，三档在后续滚动日出现已证明的不可行。完整档位显示费用与 Batch、Training 完成延迟之间的经验取舍；失败档位的前缀费用不参加完整周期排名。</p><div class="case-table"><div><strong>不确定性来源对照</strong><p>确定性、仅任务随机、仅风光随机、双侧联合四种输入，在两个固定权衡点各完成一条 504 小时回放。双侧方法改变了费用和任务延迟，但并非每项指标的最优者。</p></div><div><strong>跨日状态</strong><p>除了当日费用，还观察任务余额、临期工作量、储能状态与购电变化。一个首日看似可行的方案，仍需在后续真实任务与约束下接受检验。</p></div></div></div></section>
+      <section><span class="case-step">03 / METHOD</span><div><h2>结果如何得到</h2><p>任务侧使用完整 TaskID 历史日场景，风光侧使用成对的 24 小时日前误差轨迹；联合模型使用两侧场景组合。规划中的未来任务不计入真实执行账本。对照在相同任务与能源实际输入下独立滚动，每条策略继承自己的状态。</p><p>同一权衡参数在不同场景集合中会生成各自的约束阈值，因此对照是固定样本下的描述性比较，不能把费用差直接解释成纯粹的信息价值。</p></div></section>
+      <section><span class="case-step">04 / LEARNING</span><div><h2>研究中的判断</h2><p>我正在把数据来源、物理约束、场景概率、求解状态和真实账本逐层核对。近期也在研究储能与购电爬坡约束的结构作用，以及能否在保留决策质量的前提下减少联合场景的求解负担；这些后续试验在完成和复核前不写成结论。</p></div></section>
+      <section><span class="case-step">05 / BOUNDARIES</span><div><h2>证据边界</h2><p>任务与能源数据是合成配对，2024 评价窗口此前已接触，不能称为严格盲测。上述 504 小时来自单条历史回放，不能推出一般可行概率、生产环境节省或在线部署效果；规划期望指标也不能与真实完成延迟混称严格 Pareto 前沿。</p><p class="repository-visibility">研究仓库暂未公开。本页为截至 2026 年 11 月 9 日的阶段性摘要。</p></div></section>
     </div>
   </article>
 </Base>
